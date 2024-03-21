@@ -1,0 +1,15 @@
+@echo off
+cd /d PATH_TO_THIS_NODE_PROJECT
+
+set "confirmFlag="
+for %%i in (%*) do (
+    if /i "%%i"=="-y" set "confirmFlag=1"
+)
+
+if "%~1"=="" (
+    npm start
+) else if defined confirmFlag (
+    npm start %1 y
+) else (
+    npm start %1
+)
