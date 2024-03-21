@@ -49,12 +49,13 @@ export default async function handleMissingFile(ARGS_INCLUDE_Y: boolean, LYRIC_F
             await writeToNewFile(LYRIC_FILE_NAME);
             rl.close();
             return;
+        } else {
+            throw new Error("Create permission denied.");
         }
     } catch (e) {
         console.error(e);
         console.log(`EXITING PROCESS!`);
         rl.close();
-        process.exit();
+        process.exit(1);
     }
-
 }

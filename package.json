@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && nodemon --ext md,js ./dist/index.js -- ",
+    "start": "tsc && nodemon --exitcrash --ext md,js ./dist/index.js -- ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
