@@ -1,40 +1,86 @@
 @echo off
+setlocal enabledelayedexpansion
 
+set "projectPath=PATH_TO_THIS_NODE_PROJECT"
 
 set "confirmFlag="
 set "helpFlag="
 set "allFilesFlag="
 set "verboseFlag="
+set "fileName="
+
 set "helpText=Usage: lyricreader [filename] [options]&echo\Options:&echo\  -h       Show this help message&echo\  -a        Show all files in the directory&echo\  -y       Create new file flag&echo\  -V      Be verbose"
 
+
 for %%i in (%*) do (
-    if /i "%%i"=="-y" set "confirmFlag=1"
-    if /i "%%i"=="-h" set "helpFlag=1"
-    if /i "%%i"=="-a" set "allFilesFlag=1"
-    if /i "%%i"=="-V" set "verboseFlag=1"
+    set "option=%%i"
+    set "option=!option:~0,1!"
+    @REM echo !option!
+
+    if /i "!option!"=="-" (
+        if /i "%%i"=="-y" (
+            set "confirmFlag=1"
+        ) else if /i "%%i"=="-h" (
+            set "helpFlag=1"
+        ) else if /i "%%i"=="-a" (
+            set "allFilesFlag=1"
+        ) else if /i "%%i"=="-V" (
+            set "verboseFlag=1"
+        ) else (
+            echo Invalid flag. Use -h for help.
+            goto :eof
+        )
+    ) else if /i "!option!"=="_" (
+        echo Invalid flag. Use -h for help.
+        goto :eof
+    ) else (
+        set "fileName=%%i"
+    )
 )
 
-cd /d F:\gitting_serious\markdown-ez
+cd /d %projectPath%
 
 if "%~1"=="" (
     echo %helpText%
 ) else if defined confirmFlag (
+
+    @REM code %projectPath%\lyrics\%fileName%.md
+
     if defined verboseFlag (
-        npm start %1 y
+
+        npm start %fileName% y
+
     ) else (
-        npm --silent start %1 y
+
+        npm --silent start %fileName% y
+
     )
+
 ) else if defined helpFlag (
+
     echo %helpText%
+
 ) else if defined allFilesFlag (
+
     echo:
-    dir /b F:\gitting_serious\markdown-ez\lyrics\
+    dir /b %projectPath%\lyrics\
+
 ) else if "%~1" neq "" (
+
+    @REM code %projectPath%\lyrics\%fileName%.md
+
     if defined verboseFlag (
+
         npm start %1
+
     ) else (
+
         npm --silent start %1
+
     )
+
 ) else (
+
     echo Invalid flag. Use -h for help.
+
 )
