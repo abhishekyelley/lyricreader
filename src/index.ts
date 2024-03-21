@@ -1,8 +1,14 @@
 import fs from 'fs';
+import path from 'path';
 import * as marked from 'marked';
 import * as cheerio from 'cheerio';
 
 import handleMissingFile from './handleMissingFile.js';
+
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __curdirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(__curdirname);
 
 const ARGS = process.argv;
 const LYRIC_FILE_NAME = (ARGS[2] ? ARGS[2] : '_default') + '.md';
@@ -31,6 +37,7 @@ $('.App').append(parsedData);
 try {
     fs.writeFileSync('./public/index.html', $.html(), { encoding: 'utf8', flag: 'w' });
     console.log('HTML file generated successfully!');
+    console.log(`Open in VS Code: vscode://file/${__dirname}/lyrics/${LYRIC_FILE_NAME}`);
 } catch (e) {
     console.error(e);
 }
