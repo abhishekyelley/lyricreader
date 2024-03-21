@@ -1,5 +1,3 @@
-import * as readline from 'node:readline/promises';
-import { stdin as input, stdout as output } from 'node:process';
 import fs from 'fs';
 import * as marked from 'marked';
 import * as cheerio from 'cheerio';
@@ -7,18 +5,18 @@ import * as cheerio from 'cheerio';
 import handleMissingFile from './handleMissingFile.js';
 
 const ARGS = process.argv;
-const LYRIC_FILE_NAME = (ARGS[2] ? ARGS[2] : 'time-switch') + '.md';
+const LYRIC_FILE_NAME = (ARGS[2] ? ARGS[2] : '_default') + '.md';
+
+const $ = cheerio.load(fs.readFileSync('./public/template.html', 'utf8'));
 
 await handleMissingFile(ARGS.includes('-y'), LYRIC_FILE_NAME);
 
-const $ = cheerio.load(fs.readFileSync('./public/template.html', 'utf8'));
 
 const markdownData = {
     data: '# Blank Data'
 };
 
 try {
-    console.log(`./lyrics/${LYRIC_FILE_NAME}`);
     markdownData.data = fs.readFileSync(`./lyrics/${LYRIC_FILE_NAME}`, { encoding: 'utf8', flag: 'r' });
 } catch (e) {
     console.error("Error getting Markdown Data:", e);
