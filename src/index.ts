@@ -9,7 +9,7 @@ const LYRIC_FILE_NAME = (ARGS[2] ? ARGS[2] : '_default') + '.md';
 
 const $ = cheerio.load(fs.readFileSync('./public/template.html', 'utf8'));
 
-await handleMissingFile(ARGS.includes('-y'), LYRIC_FILE_NAME);
+await handleMissingFile(ARGS.includes('y'), LYRIC_FILE_NAME);
 
 
 const markdownData = {
